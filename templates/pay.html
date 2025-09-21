@@ -1,4 +1,11 @@
 {% extends "layout.html" %}
+
+{% block og_title %}Pay {{ amount }}€ to {{ payee_name }} - Pay M€{% endblock %}
+{% block og_description %}Pay {{ amount }}€ to {{ payee_name }} via PayPal or bank transfer. Scan QR code for instant SEPA transfer.{% endblock %}
+
+{% block twitter_title %}Pay {{ amount }}€ to {{ payee_name }} - Pay M€{% endblock %}
+{% block twitter_description %}Pay {{ amount }}€ to {{ payee_name }} via PayPal or bank transfer. Scan QR code for instant SEPA transfer.{% endblock %}
+
 {% block content %}
     <div class="row mt-3">
         <div class="col-lg-6 offset-lg-3">

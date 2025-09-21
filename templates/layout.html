@@ -3,6 +3,20 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{% block og_title %}Pay M€ - Easy Payment Links{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Generate payment QR codes and PayPal links for easy money transfers{% endblock %}">
+    <meta property="og:image" content="{% block og_image %}{{ url_for('static', filename='img/favicon.ico', _external=True) }}{% endblock %}">
+    <meta property="og:url" content="{{ request.url }}">
+    <meta property="og:site_name" content="Pay M€">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="{% block twitter_title %}Pay M€ - Easy Payment Links{% endblock %}">
+    <meta name="twitter:description" content="{% block twitter_description %}Generate payment QR codes and PayPal links for easy money transfers{% endblock %}">
+    <meta name="twitter:image" content="{% block twitter_image %}{{ url_for('static', filename='img/favicon.ico', _external=True) }}{% endblock %}">
 
     <link rel="shortcut icon" type="image/x-icon" href="../static/img/favicon.ico">
 
