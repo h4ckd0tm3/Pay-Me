@@ -13,12 +13,79 @@ app = Flask(__name__)
 PAYEE_NAME = os.getenv('PAYEE_NAME', 'Max Musterperson')
 IBAN = os.getenv('IBAN', 'AT1234560000000123')
 BIC = os.getenv('BIC', 'BKAUATWW')
-PAYPAL_USERNAME = os.getenv('PAYPAL_USERNAME', 'M Musterperson')
+PAYPAL_USERNAME = os.getenv('PAYPAL_USERNAME', '')
 QR_TEXT = os.getenv('QR_TEXT', 'Pay-Me!')
 
 
 def generate_payment_preview_svg(amount, payee_name, paypal_username):
     """Generate SVG for payment preview using colors and fonts from CSS"""
+    
+    # Determine if PayPal is available
+    has_paypal = paypal_username and paypal_username.strip()
+    
+    # Calculate positioning based on available payment methods
+    if has_paypal:
+        # Three methods: PayPal, Bank, QR
+        methods_html = """
+            <!-- PayPal -->
+            <rect x="0" y="0" width="120" height="60" rx="12" ry="12" 
+                  fill="rgba(255, 255, 255, 0.05)" 
+                  stroke="rgba(255, 255, 255, 0.1)" stroke-width="1"/>
+            <text x="60" y="25" text-anchor="middle" 
+                  font-family="Noto Color Emoji, Noto Sans" 
+                  font-size="24" fill="white">💳</text>
+            <text x="60" y="45" text-anchor="middle" 
+                  font-family="Noto Sans" 
+                  font-size="14" fill="#888">PayPal</text>
+            
+            <!-- Bank Transfer -->
+            <rect x="140" y="0" width="120" height="60" rx="12" ry="12" 
+                  fill="rgba(255, 255, 255, 0.05)" 
+                  stroke="rgba(255, 255, 255, 0.1)" stroke-width="1"/>
+            <text x="200" y="25" text-anchor="middle" 
+                  font-family="Noto Color Emoji, Noto Sans" 
+                  font-size="24" fill="white">🏦</text>
+            <text x="200" y="45" text-anchor="middle" 
+                  font-family="Noto Sans" 
+                  font-size="14" fill="#888">Bank Transfer</text>
+            
+            <!-- QR Code -->
+            <rect x="280" y="0" width="120" height="60" rx="12" ry="12" 
+                  fill="rgba(255, 255, 255, 0.05)" 
+                  stroke="rgba(255, 255, 255, 0.1)" stroke-width="1"/>
+            <text x="340" y="25" text-anchor="middle" 
+                  font-family="Noto Color Emoji, Noto Sans" 
+                  font-size="24" fill="white">📱</text>
+            <text x="340" y="45" text-anchor="middle" 
+                  font-family="Noto Sans" 
+                  font-size="14" fill="#888">QR Code</text>"""
+        transform = "translate(100, 230)"
+    else:
+        # Two methods: Bank, QR (centered)
+        methods_html = """
+            <!-- Bank Transfer -->
+            <rect x="0" y="0" width="150" height="60" rx="12" ry="12" 
+                  fill="rgba(255, 255, 255, 0.05)" 
+                  stroke="rgba(255, 255, 255, 0.1)" stroke-width="1"/>
+            <text x="75" y="25" text-anchor="middle" 
+                  font-family="Noto Color Emoji, Noto Sans" 
+                  font-size="24" fill="white">🏦</text>
+            <text x="75" y="45" text-anchor="middle" 
+                  font-family="Noto Sans" 
+                  font-size="14" fill="#888">Bank Transfer</text>
+            
+            <!-- QR Code -->
+            <rect x="170" y="0" width="150" height="60" rx="12" ry="12" 
+                  fill="rgba(255, 255, 255, 0.05)" 
+                  stroke="rgba(255, 255, 255, 0.1)" stroke-width="1"/>
+            <text x="245" y="25" text-anchor="middle" 
+                  font-family="Noto Color Emoji, Noto Sans" 
+                  font-size="24" fill="white">📱</text>
+            <text x="245" y="45" text-anchor="middle" 
+                  font-family="Noto Sans" 
+                  font-size="14" fill="#888">QR Code</text>"""
+        transform = "translate(140, 230)"
+    
     svg_template = f"""
     <svg width="600" height="400" xmlns="http://www.w3.org/2000/svg">
         <defs>
@@ -42,59 +109,28 @@ def generate_payment_preview_svg(amount, payee_name, paypal_username):
         
         <!-- Brand -->
         <text x="300" y="100" text-anchor="middle" 
-              font-family="Arial, Helvetica, sans-serif" 
-              font-size="24" font-weight="700" fill="#4a9eff">Pay M€</text>
+              font-family="Noto Sans" 
+              font-size="24" font-weight="100" fill="#cccccc">Pay</text>
         
         <!-- Amount -->
         <text x="300" y="160" text-anchor="middle" 
-              font-family="Arial, Helvetica, sans-serif" 
-              font-size="48" font-weight="800" fill="#4a9eff">€{amount}</text>
+              font-family="Noto Sans" 
+              font-size="48" font-weight="200" fill="#4a9eff">€ {amount}</text>
         
         <!-- Payee -->
         <text x="300" y="200" text-anchor="middle" 
-              font-family="Arial, Helvetica, sans-serif" 
-              font-size="24" fill="#cccccc">to {payee_name}</text>
+              font-family="Noto Sans" 
+              font-size="24" font-weight="100" fill="#cccccc">to {payee_name}</text>
         
         <!-- Payment methods -->
-        <g transform="translate(100, 230)">
-            <!-- PayPal -->
-            <rect x="0" y="0" width="120" height="60" rx="12" ry="12" 
-                  fill="rgba(255, 255, 255, 0.05)" 
-                  stroke="rgba(255, 255, 255, 0.1)" stroke-width="1"/>
-            <text x="60" y="25" text-anchor="middle" 
-                  font-family="Arial, Helvetica, sans-serif" 
-                  font-size="24" fill="white">💳</text>
-            <text x="60" y="45" text-anchor="middle" 
-                  font-family="Arial, Helvetica, sans-serif" 
-                  font-size="14" fill="#888">PayPal</text>
-            
-            <!-- Bank Transfer -->
-            <rect x="140" y="0" width="120" height="60" rx="12" ry="12" 
-                  fill="rgba(255, 255, 255, 0.05)" 
-                  stroke="rgba(255, 255, 255, 0.1)" stroke-width="1"/>
-            <text x="200" y="25" text-anchor="middle" 
-                  font-family="Arial, Helvetica, sans-serif" 
-                  font-size="24" fill="white">🏦</text>
-            <text x="200" y="45" text-anchor="middle" 
-                  font-family="Arial, Helvetica, sans-serif" 
-                  font-size="14" fill="#888">Bank Transfer</text>
-            
-            <!-- QR Code -->
-            <rect x="280" y="0" width="120" height="60" rx="12" ry="12" 
-                  fill="rgba(255, 255, 255, 0.05)" 
-                  stroke="rgba(255, 255, 255, 0.1)" stroke-width="1"/>
-            <text x="340" y="25" text-anchor="middle" 
-                  font-family="Arial, Helvetica, sans-serif" 
-                  font-size="24" fill="white">📱</text>
-            <text x="340" y="45" text-anchor="middle" 
-                  font-family="Arial, Helvetica, sans-serif" 
-                  font-size="14" fill="#888">QR Code</text>
+        <g transform="{transform}">
+            {methods_html}
         </g>
         
         <!-- Powered by -->
         <text x="300" y="340" text-anchor="middle" 
-              font-family="Arial, Helvetica, sans-serif" 
-              font-size="12" fill="#666">Powered by Pay M€</text>
+              font-family="Noto Sans" 
+              font-size="12" fill="#666">Powered by Pay Me</text>
     </svg>
     """
     return svg_template
@@ -117,8 +153,10 @@ def pay(amount):
 
         qrcode = helpers.make_epc_qr(name=PAYEE_NAME, iban=IBAN, bic=BIC,
                                      amount=amount, text=QR_TEXT)
+        # Only pass PayPal username if it's configured
+        paypal_user = PAYPAL_USERNAME if PAYPAL_USERNAME and PAYPAL_USERNAME.strip() else None
         return render_template("pay.html", amount=f"{amount:.2f}", qrcode=qrcode, 
-                             payee_name=PAYEE_NAME, iban=IBAN, bic=BIC, paypal_username=PAYPAL_USERNAME)
+                             payee_name=PAYEE_NAME, iban=IBAN, bic=BIC, paypal_username=paypal_user)
     except ValueError:
         # Handle the exception
         return redirect(url_for("main"))
@@ -133,10 +171,11 @@ def image_preview(amount):
             raise ValueError("Negative Number")
         
         # Generate SVG content
+        paypal_user = PAYPAL_USERNAME if PAYPAL_USERNAME and PAYPAL_USERNAME.strip() else None
         svg_content = generate_payment_preview_svg(
             f"{amount_float:.2f}", 
             PAYEE_NAME, 
-            PAYPAL_USERNAME
+            paypal_user
         )
         
         # Create temporary file for the PNG
