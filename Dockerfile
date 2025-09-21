@@ -3,6 +3,12 @@ FROM python:3.13-alpine
 
 EXPOSE 5001
 
+RUN apk add --no-cache \
+    build-base cairo-dev cairo cairo-tools \
+    # pillow dependencies
+    jpeg-dev zlib-dev freetype-dev lcms2-dev openjpeg-dev tiff-dev tk-dev tcl-dev
+
+
 RUN mkdir /app
 WORKDIR /app
 

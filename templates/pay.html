@@ -2,9 +2,11 @@
 
 {% block og_title %}Pay {{ amount }}€ to {{ payee_name }} - Pay M€{% endblock %}
 {% block og_description %}Pay {{ amount }}€ to {{ payee_name }} via PayPal or bank transfer. Scan QR code for instant SEPA transfer.{% endblock %}
+{% block og_image %}{{ url_for('image_preview', amount=amount, _external=True) }}{% endblock %}
 
 {% block twitter_title %}Pay {{ amount }}€ to {{ payee_name }} - Pay M€{% endblock %}
 {% block twitter_description %}Pay {{ amount }}€ to {{ payee_name }} via PayPal or bank transfer. Scan QR code for instant SEPA transfer.{% endblock %}
+{% block twitter_image %}{{ url_for('image_preview', amount=amount, _external=True) }}{% endblock %}
 
 {% block content %}
     <div class="row mt-3">

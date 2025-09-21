@@ -2,3 +2,4 @@ segno
 Flask
 gunicorn
 python-dotenv
+cairosvg
