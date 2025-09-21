@@ -1,5 +1,7 @@
 # Pay Me 💳
 
+[![Docker Build](https://github.com/h4ckd0tm3/Pay-Me/actions/workflows/docker-image.yml/badge.svg)](https://github.com/h4ckd0tm3/Pay-Me/actions/workflows/docker-image.yml)
+
 A modern Flask web application that generates payment QR codes and PayPal links for easy money transfers. Users can enter an amount and choose between PayPal payments or SEPA bank transfers with automatically generated EPC QR codes.
 
 ## Features
