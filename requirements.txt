@@ -1,4 +1,5 @@
 segno
 Flask
-gunicorn
+waitress
 python-dotenv
+cairosvg
