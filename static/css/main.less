@@ -1,0 +1,140 @@
+// Main styling for Pay-Me application
+
+body {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+}
+
+.container {
+    padding: 2rem;
+}
+
+h1, h2, h3 {
+    color: #333;
+    font-weight: 600;
+    text-align: center;
+}
+
+.form-control {
+    border-radius: 10px;
+    border: 2px solid #e0e0e0;
+    padding: 12px 16px;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    
+    &:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+    }
+}
+
+.input-group-text {
+    background: #667eea;
+    color: white;
+    border: 2px solid #667eea;
+    border-radius: 10px 0 0 10px;
+    font-weight: 600;
+}
+
+.btn {
+    border-radius: 10px;
+    padding: 12px 24px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    border: none;
+    
+    &.btn-primary {
+        background: linear-gradient(45deg, #667eea, #764ba2);
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            background: linear-gradient(45deg, #5a6fd8, #6a4190);
+        }
+    }
+}
+
+.payment-section {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    padding: 2rem;
+    margin: 1rem 0;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.content-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    padding: 2rem;
+    margin: 1rem 0;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.bank-details {
+    background: #f8f9fa;
+    padding: 1rem;
+    border-radius: 8px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 1rem 0;
+}
+
+.qr-code-container {
+    text-align: center;
+    padding: 1rem;
+    background: white;
+    border-radius: 8px;
+    margin: 1rem 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.amount-display {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #667eea;
+    text-align: center;
+    margin: 1rem 0;
+}
+
+footer {
+    background: rgba(255, 255, 255, 0.9) !important;
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    
+    .text-muted {
+        color: #666 !important;
+    }
+    
+    a {
+        color: #667eea;
+        text-decoration: none;
+        
+        &:hover {
+            color: #5a6fd8;
+        }
+    }
+}
+
+// Responsive improvements
+@media (max-width: 768px) {
+    .container {
+        margin: 1rem;
+        padding: 1.5rem;
+        border-radius: 10px;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+    }
+    
+    .amount-display {
+        font-size: 1.5rem;
+    }
+}

@@ -1,0 +1,4 @@
+segno
+Flask
+gunicorn
+python-dotenv

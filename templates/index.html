@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="row mt-3">
+        <div class="col-lg-6 offset-lg-3">
+            <div class="content-card">
+                <h1><i class="fas fa-credit-card"></i> Pay Me</h1>
+                <p class="lead text-center">Enter the amount you'd like to pay and choose your preferred payment method</p>
+            </div>
+        </div>
+    </div>
+    
+    <form class="form-inline">
+        <div class="row mt-4">
+            <div class="col-lg-6 offset-lg-3">
+                <div class="payment-section">
+                    <div class="form-group">
+                        <label for="amount" class="form-label"><strong>Payment Amount</strong></label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text"><i class="fas fa-euro-sign"></i></span>
+                            <input type="number" min="0.00" step="0.01" placeholder="0.00" id="amount"
+                                   name="amount" class="form-control" required>
+                        </div>
+                    </div>
+                    <button class="btn btn-lg btn-primary w-100" type="submit">
+                        <i class="fas fa-arrow-right"></i> Continue to Payment
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}

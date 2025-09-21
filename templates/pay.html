@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="row mt-3">
+        <div class="col-lg-6 offset-lg-3">
+            <div class="content-card">
+                <h2>You are paying <span class="amount-display">{{ amount }} €</span> to {{ payee_name }}</h2>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mt-4">
+        <div class="col-lg-6 offset-lg-3">
+            <div class="payment-section">
+                <h4><i class="fab fa-paypal"></i> PayPal Payment</h4>
+                <p class="text-muted mb-3">Quick and secure payment via PayPal</p>
+                <a class="btn btn-lg btn-primary w-100" href="https://paypal.me/{{ paypal_username }}/{{ amount }}" role="button">
+                    <i class="fab fa-paypal"></i> Pay with PayPal
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mt-4">
+        <div class="col-lg-6 offset-lg-3">
+            <div class="payment-section">
+                <h4><i class="fas fa-university"></i> Bank Transfer</h4>
+                <p class="text-muted">Transfer directly to bank account using SEPA</p>
+                
+                <div class="bank-details">
+                    <strong>{{ payee_name }}</strong><br>
+                    IBAN: {{ iban }}<br>
+                    BIC: {{ bic }}
+                </div>
+                
+                <div class="qr-code-container">
+                    <p><strong>Scan QR Code for instant transfer:</strong></p>
+                    <img src="{{ qrcode.svg_data_uri(scale=6) }}" class="mx-auto d-block">
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
