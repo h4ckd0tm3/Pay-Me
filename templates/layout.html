@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="{% block og_title %}Pay M€ - Easy Payment Links{% endblock %}">
@@ -13,7 +13,7 @@
     <meta property="og:site_name" content="Pay M€">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="800">
-    
+
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{% block twitter_title %}Pay M€ - Easy Payment Links{% endblock %}">
@@ -22,6 +22,11 @@
 
     <link rel="shortcut icon" type="image/x-icon" href="../static/img/favicon.ico">
 
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
@@ -29,20 +34,19 @@
           crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <link rel="stylesheet/less" type="text/css" href="{{ url_for('static', filename='css/main.less') }}">
     <script src="https://cdn.jsdelivr.net/npm/less@4.1.3/dist/less.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-    <title>Pay Me</title>
+    <title>{% block title %}Pay Me{% endblock %}</title>
 </head>
 <body class="d-flex flex-column min-vh-100">
-<main class="flex-shrink-0" style="margin-top: 2rem">
+<main class="flex-shrink-0">
     <div class="container">
         {% block content %}{% endblock %}
     </div>
 </main>
-<footer class="footer mt-auto py-3 bg-light">
-    <div class="container">
-        <span class="text-muted">
-            Made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https:\\schnideritsch.at">Marcel Schnideritsch</a>
+<footer class="footer mt-auto py-3">
+    <div class="container text-center">
+        <span class="footer-text">
+            Made with <i class="fa fa-heart" aria-label="love"></i> by <a href="https://schnideritsch.at">Marcel Schnideritsch</a>
         </span>
     </div>
 </footer>
@@ -52,6 +56,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"
         integrity="sha512-RXf+QSDCUQs5uwRKaDoXt55jygZZm2V++WUZduaU/Ui/9EGp3f/2KZVahFZBKGH0s774sd3HmrhUy+SgOFQLVQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
+{% block scripts %}{% endblock %}
 </body>
 </html>

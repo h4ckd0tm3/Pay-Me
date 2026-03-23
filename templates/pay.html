@@ -1,5 +1,7 @@
 {% extends "layout.html" %}
 
+{% block title %}Pay {{ amount }}€ to {{ payee_name }}{% endblock %}
+
 {% block og_title %}Pay {{ amount }}€ to {{ payee_name }} - Pay M€{% endblock %}
 {% block og_description %}Pay {{ amount }}€ to {{ payee_name }}{% if paypal_username %} via PayPal or bank transfer{% else %} via bank transfer{% endif %}. Scan QR code for instant SEPA transfer.{% endblock %}
 {% block og_image %}{{ url_for('image_preview', amount=amount, _external=True) }}{% endblock %}
@@ -9,45 +11,101 @@
 {% block twitter_image %}{{ url_for('image_preview', amount=amount, _external=True) }}{% endblock %}
 
 {% block content %}
-    <div class="row mt-3">
-        <div class="col-lg-6 offset-lg-3">
-            <div class="content-card">
-                <h2>You are paying <span class="amount-display">{{ amount }} €</span> to {{ payee_name }}</h2>
+    <div class="row justify-content-center mt-4">
+        <div class="col-lg-5 col-md-8">
+            <div class="content-card text-center animate-in">
+                <p class="payment-label">Payment Request</p>
+                <div class="amount-display">{{ amount }} €</div>
+                <p class="payee-name">to {{ payee_name }}</p>
             </div>
         </div>
     </div>
-    
+
     {% if paypal_username %}
-    <div class="row mt-4">
-        <div class="col-lg-6 offset-lg-3">
-            <div class="payment-section">
-                <h4><i class="fab fa-paypal"></i> PayPal Payment</h4>
-                <p class="text-muted mb-3">Quick and secure payment via PayPal</p>
-                <a class="btn btn-lg btn-primary w-100" href="https://paypal.me/{{ paypal_username }}/{{ amount }}" role="button">
-                    <i class="fab fa-paypal"></i> Pay with PayPal
+    <div class="row justify-content-center mt-3">
+        <div class="col-lg-5 col-md-8">
+            <div class="payment-section animate-in delay-1">
+                <div class="section-header">
+                    <div class="section-icon paypal-icon">
+                        <i class="fab fa-paypal"></i>
+                    </div>
+                    <div>
+                        <h4>PayPal</h4>
+                        <p class="section-subtitle">Quick and secure payment</p>
+                    </div>
+                </div>
+                <a class="btn btn-paypal btn-lg w-100" href="https://paypal.me/{{ paypal_username }}/{{ amount }}" role="button" target="_blank" rel="noopener">
+                    <i class="fab fa-paypal me-2"></i> Pay with PayPal
                 </a>
             </div>
         </div>
     </div>
     {% endif %}
-    
-    <div class="row mt-4">
-        <div class="col-lg-6 offset-lg-3">
-            <div class="payment-section">
-                <h4><i class="fas fa-university"></i> Bank Transfer</h4>
-                <p class="text-muted">Transfer directly to bank account using SEPA</p>
-                
-                <div class="bank-details">
-                    <strong>{{ payee_name }}</strong><br>
-                    IBAN: {{ iban }}<br>
-                    BIC: {{ bic }}
+
+    <div class="row justify-content-center mt-3">
+        <div class="col-lg-5 col-md-8">
+            <div class="payment-section animate-in delay-2">
+                <div class="section-header">
+                    <div class="section-icon bank-icon">
+                        <i class="fas fa-university"></i>
+                    </div>
+                    <div>
+                        <h4>Bank Transfer</h4>
+                        <p class="section-subtitle">SEPA direct transfer</p>
+                    </div>
                 </div>
-                
+
+                <div class="bank-details">
+                    <div class="bank-detail-row">
+                        <span class="bank-detail-label">Recipient</span>
+                        <span class="bank-detail-value">{{ payee_name }}</span>
+                    </div>
+                    <div class="bank-detail-row">
+                        <span class="bank-detail-label">IBAN</span>
+                        <span class="bank-detail-value monospace">{{ iban }}</span>
+                        <button class="btn-copy" onclick="copyToClipboard('{{ iban }}', this)" title="Copy IBAN" aria-label="Copy IBAN to clipboard">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    <div class="bank-detail-row">
+                        <span class="bank-detail-label">BIC</span>
+                        <span class="bank-detail-value monospace">{{ bic }}</span>
+                        <button class="btn-copy" onclick="copyToClipboard('{{ bic }}', this)" title="Copy BIC" aria-label="Copy BIC to clipboard">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                </div>
+
                 <div class="qr-code-container">
-                    <p><strong>Scan QR Code for instant transfer:</strong></p>
-                    <img src="{{ qrcode.svg_data_uri(scale=6) }}" class="mx-auto d-block">
+                    <p class="qr-label">Scan to pay instantly</p>
+                    <img src="{{ qrcode.svg_data_uri(scale=6) }}" class="qr-code-img" alt="EPC QR Code for bank transfer of {{ amount }}€">
+                    <p class="qr-hint">Open your banking app and scan this EPC QR code</p>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="row justify-content-center mt-3 mb-4">
+        <div class="col-lg-5 col-md-8 text-center">
+            <a href="{{ url_for('main') }}" class="btn-back">
+                <i class="fas fa-arrow-left me-1"></i> New Payment
+            </a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function copyToClipboard(text, btn) {
+    navigator.clipboard.writeText(text).then(function() {
+        var icon = btn.querySelector('i');
+        icon.className = 'fas fa-check';
+        btn.classList.add('copied');
+        setTimeout(function() {
+            icon.className = 'fas fa-copy';
+            btn.classList.remove('copied');
+        }, 2000);
+    });
+}
+</script>
 {% endblock %}

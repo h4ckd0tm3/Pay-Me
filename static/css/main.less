@@ -1,193 +1,508 @@
-// Main styling for Pay-Me application
+// Pay-Me — Design System
+// Font: Inter | Style: Glassmorphism on deep gradient
+// Palette: Indigo (#4f46e5) / Violet (#7c3aed) / Slate text
+
+// ─── Variables ────────────────────────────────────────────
+@primary: #4f46e5;
+@primary-light: #6366f1;
+@primary-dark: #4338ca;
+@accent: #7c3aed;
+@paypal-blue: #0070ba;
+@paypal-hover: #005ea6;
+
+@bg-start: #312e81;
+@bg-end: #581c87;
+
+@card-bg: rgba(255, 255, 255, 0.92);
+@card-border: rgba(255, 255, 255, 0.25);
+@card-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+@card-radius: 20px;
+
+@text-primary: #1e293b;
+@text-secondary: #64748b;
+@text-muted: #94a3b8;
+
+@transition-fast: 150ms ease;
+@transition-base: 250ms ease;
+
+// ─── Base ─────────────────────────────────────────────────
+* {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
 
 body {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, @bg-start 0%, @bg-end 100%);
     min-height: 100vh;
+    min-height: 100dvh;
 }
 
 .container {
-    padding: 2rem;
+    padding: 1.5rem;
     max-width: 1200px;
 }
 
-h1, h2, h3 {
-    color: #333;
-    font-weight: 600;
-    text-align: center;
+// ─── Entrance animation ──────────────────────────────────
+.animate-in {
+    animation: fadeSlideUp 500ms ease both;
 }
 
-.form-control {
-    border-radius: 10px;
-    border: 2px solid #e0e0e0;
-    padding: 12px 16px;
-    font-size: 1.1rem;
-    transition: all 0.3s ease;
-    
-    &:focus {
-        border-color: #667eea;
-        box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+.delay-1 { animation-delay: 100ms; }
+.delay-2 { animation-delay: 200ms; }
+
+@keyframes fadeSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
-.input-group-text {
-    background: #667eea;
-    color: white;
-    border: 2px solid #667eea;
-    border-radius: 10px 0 0 10px;
-    font-weight: 600;
+@media (prefers-reduced-motion: reduce) {
+    .animate-in { animation: none; }
 }
 
-.btn {
-    border-radius: 10px;
-    padding: 12px 24px;
+// ─── Typography ───────────────────────────────────────────
+h1 {
+    color: @text-primary;
+    font-weight: 700;
+    font-size: 2rem;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+}
+
+h4 {
+    color: @text-primary;
     font-weight: 600;
     font-size: 1.1rem;
-    transition: all 0.3s ease;
-    border: none;
-    
-    &.btn-primary {
-        background: linear-gradient(45deg, #667eea, #764ba2);
-        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-        
-        &:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
-            background: linear-gradient(45deg, #5a6fd8, #6a4190);
-        }
+    margin: 0;
+}
+
+.subtitle {
+    color: @text-secondary;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+// ─── Brand icon ───────────────────────────────────────────
+.brand-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, @primary, @accent);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+
+    i {
+        color: white;
+        font-size: 1.5rem;
     }
 }
 
+// ─── Cards ────────────────────────────────────────────────
+.content-card,
 .payment-section {
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 15px;
+    background: @card-bg;
+    border-radius: @card-radius;
     padding: 2rem;
-    margin: 1rem 0;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: @card-shadow;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid @card-border;
 }
 
 .content-card {
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 15px;
-    padding: 2rem;
-    margin: 1rem 0;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.bank-details {
-    background: #f8f9fa;
-    padding: 1rem;
-    border-radius: 8px;
-    font-family: 'Courier New', monospace;
-    font-size: 0.95rem;
-    line-height: 1.6;
-    margin: 1rem 0;
-}
-
-.qr-code-container {
     text-align: center;
-    padding: 1rem;
-    background: white;
-    border-radius: 8px;
-    margin: 1rem 0;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+// ─── Form controls ────────────────────────────────────────
+.form-label {
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: @text-secondary;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+}
+
+.form-control {
+    border-radius: 12px;
+    border: 2px solid #e2e8f0;
+    padding: 0.75rem 1rem;
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: @text-primary;
+    transition: border-color @transition-fast, box-shadow @transition-fast;
+
+    &:focus {
+        border-color: @primary;
+        box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.12);
+        outline: none;
+    }
+
+    &::placeholder {
+        color: @text-muted;
+        font-weight: 400;
+    }
+}
+
+.form-control-lg {
+    padding: 0.875rem 1rem;
+    font-size: 1.25rem;
+}
+
+.input-group-text {
+    background: @primary;
+    color: white;
+    border: 2px solid @primary;
+    border-radius: 12px 0 0 12px;
+    font-weight: 600;
+    padding: 0.75rem 1rem;
+}
+
+.input-group .form-control {
+    border-radius: 0 12px 12px 0;
+}
+
+// ─── Buttons ──────────────────────────────────────────────
+.btn {
+    border-radius: 12px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all @transition-base;
+    border: none;
+    cursor: pointer;
+
+    &:focus-visible {
+        outline: 3px solid @primary-light;
+        outline-offset: 2px;
+    }
+}
+
+.btn-lg {
+    padding: 0.875rem 1.5rem;
+    font-size: 1.1rem;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, @primary, @accent);
+    color: white;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+
+    &:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+        background: linear-gradient(135deg, @primary-dark, darken(@accent, 5%));
+        color: white;
+    }
+
+    &:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 8px rgba(79, 70, 229, 0.3);
+    }
+}
+
+.btn-paypal {
+    background: @paypal-blue;
+    color: white;
+    box-shadow: 0 4px 12px rgba(0, 112, 186, 0.25);
+
+    &:hover {
+        background: @paypal-hover;
+        transform: translateY(-1px);
+        box-shadow: 0 6px 20px rgba(0, 112, 186, 0.35);
+        color: white;
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+}
+
+// ─── Payment page ─────────────────────────────────────────
+.payment-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: @text-muted;
+    margin-bottom: 0.25rem;
 }
 
 .amount-display {
-    font-size: 2rem;
-    font-weight: bold;
-    color: #667eea;
-    text-align: center;
-    margin: 1rem 0;
+    font-size: 2.75rem;
+    font-weight: 700;
+    color: @primary;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
 }
 
-footer {
-    background: rgba(255, 255, 255, 0.9) !important;
-    backdrop-filter: blur(10px);
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
-    
-    .text-muted {
-        color: #666 !important;
+.payee-name {
+    font-size: 1.1rem;
+    color: @text-secondary;
+    font-weight: 500;
+    margin-bottom: 0;
+}
+
+// ─── Section headers ──────────────────────────────────────
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    margin-bottom: 1.25rem;
+}
+
+.section-icon {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    i { font-size: 1.1rem; }
+}
+
+.paypal-icon {
+    background: fade(@paypal-blue, 10%);
+    i { color: @paypal-blue; }
+}
+
+.bank-icon {
+    background: fade(@primary, 10%);
+    i { color: @primary; }
+}
+
+.section-subtitle {
+    color: @text-muted;
+    font-size: 0.875rem;
+    margin: 0;
+}
+
+// ─── Bank details ─────────────────────────────────────────
+.bank-details {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 0.25rem 0;
+    margin-bottom: 1.25rem;
+    border: 1px solid #e2e8f0;
+}
+
+.bank-detail-row {
+    display: flex;
+    align-items: center;
+    padding: 0.625rem 1rem;
+    gap: 0.75rem;
+
+    & + & {
+        border-top: 1px solid #e2e8f0;
     }
-    
+}
+
+.bank-detail-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: @text-muted;
+    min-width: 64px;
+}
+
+.bank-detail-value {
+    flex: 1;
+    font-weight: 500;
+    color: @text-primary;
+    font-size: 0.95rem;
+}
+
+.monospace {
+    font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+    letter-spacing: 0.03em;
+}
+
+.btn-copy {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: @text-muted;
+    padding: 6px 8px;
+    border-radius: 8px;
+    transition: all @transition-fast;
+    min-width: 36px;
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+        background: #e2e8f0;
+        color: @primary;
+    }
+
+    &.copied {
+        color: #16a34a;
+    }
+
+    &:focus-visible {
+        outline: 2px solid @primary-light;
+        outline-offset: 1px;
+    }
+}
+
+// ─── QR code ──────────────────────────────────────────────
+.qr-code-container {
+    text-align: center;
+    padding: 1.5rem;
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+}
+
+.qr-label {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: @text-primary;
+    margin-bottom: 1rem;
+}
+
+.qr-code-img {
+    display: block;
+    margin: 0 auto 0.75rem;
+    max-width: 200px;
+}
+
+.qr-hint {
+    font-size: 0.8rem;
+    color: @text-muted;
+    margin: 0;
+}
+
+// ─── Back link ────────────────────────────────────────────
+.btn-back {
+    display: inline-flex;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    transition: all @transition-fast;
+
+    &:hover {
+        color: white;
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    &:focus-visible {
+        outline: 2px solid rgba(255, 255, 255, 0.5);
+        outline-offset: 2px;
+    }
+}
+
+// ─── Footer ───────────────────────────────────────────────
+footer {
+    background: rgba(0, 0, 0, 0.15) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.footer-text {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.85rem;
+
+    .fa-heart {
+        color: #f43f5e;
+    }
+
     a {
-        color: #667eea;
+        color: rgba(255, 255, 255, 0.7);
         text-decoration: none;
-        
+        transition: color @transition-fast;
+
         &:hover {
-            color: #5a6fd8;
+            color: white;
         }
     }
 }
 
-// Responsive improvements
+// ─── Responsive: tablet ───────────────────────────────────
 @media (max-width: 768px) {
-    body {
-        margin: 0;
-        padding: 0;
-    }
-    
     .container {
         padding: 0.75rem;
-        margin: 0 auto;
-        max-width: 100%;
-        width: 100%;
     }
-    
-    .payment-section, .content-card {
-        margin: 0.75rem 0;
-        padding: 1.25rem;
-        border-radius: 12px;
+
+    .content-card,
+    .payment-section {
+        padding: 1.5rem;
+        border-radius: 16px;
     }
-    
-    .col-lg-6 {
-        padding-left: 0;
-        padding-right: 0;
+
+    h1 {
+        font-size: 1.75rem;
     }
-    
-    h2 {
-        font-size: 1.4rem;
-        line-height: 1.3;
-    }
-    
+
     .amount-display {
-        font-size: 1.4rem;
+        font-size: 2.25rem;
     }
-    
-    .btn {
-        padding: 14px 20px;
+
+    .btn-lg {
+        padding: 0.875rem 1.25rem;
         font-size: 1rem;
     }
-    
-    .bank-details {
-        padding: 0.875rem;
-        font-size: 0.9rem;
-    }
-    
-    .qr-code-container {
-        padding: 0.875rem;
+
+    .bank-detail-value {
+        font-size: 0.875rem;
     }
 }
 
+// ─── Responsive: small phone ──────────────────────────────
 @media (max-width: 480px) {
     .container {
         padding: 0.5rem;
     }
-    
-    .payment-section, .content-card {
-        margin: 0.5rem 0;
-        padding: 1rem;
-        border-radius: 10px;
+
+    .content-card,
+    .payment-section {
+        padding: 1.25rem;
+        border-radius: 14px;
     }
-    
-    h2 {
-        font-size: 1.25rem;
+
+    h1 {
+        font-size: 1.5rem;
     }
-    
+
     .amount-display {
-        font-size: 1.25rem;
+        font-size: 2rem;
+    }
+
+    .brand-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+
+        i { font-size: 1.25rem; }
+    }
+
+    .bank-detail-row {
+        flex-wrap: wrap;
+        padding: 0.5rem 0.75rem;
+    }
+
+    .bank-detail-label {
+        min-width: 100%;
+        margin-bottom: 0.125rem;
+    }
+
+    .bank-detail-value {
+        font-size: 0.85rem;
     }
 }

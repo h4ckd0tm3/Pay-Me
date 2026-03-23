@@ -1,0 +1,89 @@
+<svg width="600" height="400" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#312e81;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#581c87;stop-opacity:1" />
+        </linearGradient>
+    </defs>
+
+    <!-- Background -->
+    <rect width="600" height="400" fill="url(#bgGradient)"/>
+
+    <!-- Glassmorphism card -->
+    <rect x="50" y="50" width="500" height="300" rx="20" ry="20"
+          fill="rgba(255, 255, 255, 0.08)"
+          stroke="rgba(255, 255, 255, 0.15)"
+          stroke-width="1"/>
+
+    <text x="300" y="105" text-anchor="middle"
+          font-family="Inter, sans-serif"
+          font-size="14" font-weight="600" letter-spacing="3"
+          fill="#94a3b8">PAYMENT REQUEST</text>
+
+    <text x="300" y="165" text-anchor="middle"
+          font-family="Inter, sans-serif"
+          font-size="52" font-weight="700" fill="#818cf8">{{ amount }} &#8364;</text>
+
+    <text x="300" y="200" text-anchor="middle"
+          font-family="Inter, sans-serif"
+          font-size="20" font-weight="400" fill="#cbd5e1">to {{ payee_name }}</text>
+
+    <!-- Payment methods -->
+    <g transform="{{ methods_transform }}">
+        {% if has_paypal %}
+        <rect x="0" y="0" width="120" height="60" rx="12" ry="12"
+              fill="rgba(255, 255, 255, 0.06)"
+              stroke="rgba(255, 255, 255, 0.12)" stroke-width="1"/>
+        <text x="60" y="25" text-anchor="middle"
+              font-family="Noto Color Emoji, Inter, sans-serif"
+              font-size="22" fill="white">&#x1F4B3;</text>
+        <text x="60" y="47" text-anchor="middle"
+              font-family="Inter, sans-serif"
+              font-size="12" font-weight="500" fill="#94a3b8">PayPal</text>
+
+        <rect x="140" y="0" width="120" height="60" rx="12" ry="12"
+              fill="rgba(255, 255, 255, 0.06)"
+              stroke="rgba(255, 255, 255, 0.12)" stroke-width="1"/>
+        <text x="200" y="25" text-anchor="middle"
+              font-family="Noto Color Emoji, Inter, sans-serif"
+              font-size="22" fill="white">&#x1F3E6;</text>
+        <text x="200" y="47" text-anchor="middle"
+              font-family="Inter, sans-serif"
+              font-size="12" font-weight="500" fill="#94a3b8">Bank</text>
+
+        <rect x="280" y="0" width="120" height="60" rx="12" ry="12"
+              fill="rgba(255, 255, 255, 0.06)"
+              stroke="rgba(255, 255, 255, 0.12)" stroke-width="1"/>
+        <text x="340" y="25" text-anchor="middle"
+              font-family="Noto Color Emoji, Inter, sans-serif"
+              font-size="22" fill="white">&#x1F4F1;</text>
+        <text x="340" y="47" text-anchor="middle"
+              font-family="Inter, sans-serif"
+              font-size="12" font-weight="500" fill="#94a3b8">QR Code</text>
+        {% else %}
+        <rect x="0" y="0" width="150" height="60" rx="12" ry="12"
+              fill="rgba(255, 255, 255, 0.06)"
+              stroke="rgba(255, 255, 255, 0.12)" stroke-width="1"/>
+        <text x="75" y="25" text-anchor="middle"
+              font-family="Noto Color Emoji, Inter, sans-serif"
+              font-size="22" fill="white">&#x1F3E6;</text>
+        <text x="75" y="47" text-anchor="middle"
+              font-family="Inter, sans-serif"
+              font-size="12" font-weight="500" fill="#94a3b8">Bank Transfer</text>
+
+        <rect x="170" y="0" width="150" height="60" rx="12" ry="12"
+              fill="rgba(255, 255, 255, 0.06)"
+              stroke="rgba(255, 255, 255, 0.12)" stroke-width="1"/>
+        <text x="245" y="25" text-anchor="middle"
+              font-family="Noto Color Emoji, Inter, sans-serif"
+              font-size="22" fill="white">&#x1F4F1;</text>
+        <text x="245" y="47" text-anchor="middle"
+              font-family="Inter, sans-serif"
+              font-size="12" font-weight="500" fill="#94a3b8">QR Code</text>
+        {% endif %}
+    </g>
+
+    <text x="300" y="340" text-anchor="middle"
+          font-family="Inter, sans-serif"
+          font-size="11" font-weight="500" fill="#475569">Pay Me</text>
+</svg>

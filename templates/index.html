@@ -1,31 +1,38 @@
 {% extends "layout.html" %}
 {% block content %}
-    <div class="row mt-3">
-        <div class="col-lg-6 offset-lg-3">
-            <div class="content-card">
-                <h1><i class="fas fa-credit-card"></i> Pay Me</h1>
-                <p class="lead text-center">Enter the amount you'd like to pay and choose your preferred payment method</p>
-            </div>
-        </div>
-    </div>
-    
-    <form class="form-inline">
-        <div class="row mt-4">
-            <div class="col-lg-6 offset-lg-3">
-                <div class="payment-section">
-                    <div class="form-group">
-                        <label for="amount" class="form-label"><strong>Payment Amount</strong></label>
-                        <div class="input-group mb-3">
-                            <span class="input-group-text"><i class="fas fa-euro-sign"></i></span>
-                            <input type="number" min="0.00" step="0.01" placeholder="0.00" id="amount"
-                                   name="amount" class="form-control" required>
-                        </div>
+    <div class="hero-section">
+        <div class="row justify-content-center">
+            <div class="col-lg-5 col-md-8">
+                <div class="content-card text-center animate-in">
+                    <div class="brand-icon">
+                        <i class="fas fa-wallet"></i>
                     </div>
-                    <button class="btn btn-lg btn-primary w-100" type="submit">
-                        <i class="fas fa-arrow-right"></i> Continue to Payment
-                    </button>
+                    <h1>Pay Me</h1>
+                    <p class="subtitle">Enter an amount to generate a shareable payment link with QR code and bank details.</p>
                 </div>
             </div>
         </div>
-    </form>
+
+        <form class="form-inline" action="/" method="get">
+            <div class="row justify-content-center mt-4">
+                <div class="col-lg-5 col-md-8">
+                    <div class="payment-section animate-in delay-1">
+                        <div class="form-group">
+                            <label for="amount" class="form-label">Payment Amount</label>
+                            <div class="input-group">
+                                <span class="input-group-text" aria-label="Euro"><i class="fas fa-euro-sign"></i></span>
+                                <input type="number" min="0.01" step="0.01" placeholder="0.00" id="amount"
+                                       name="amount" class="form-control form-control-lg" required
+                                       aria-label="Payment amount in euros"
+                                       inputmode="decimal">
+                            </div>
+                        </div>
+                        <button class="btn btn-primary btn-lg w-100 mt-3" type="submit">
+                            Continue to Payment <i class="fas fa-arrow-right ms-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
 {% endblock %}
