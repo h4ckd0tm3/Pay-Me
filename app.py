@@ -20,9 +20,9 @@ QR_TEXT = os.getenv('QR_TEXT', 'Pay-Me!')
 
 def parse_amount(raw):
     """Parse and validate a payment amount string. Returns a float or raises ValueError."""
-    raw = raw.replace(",", ".")
-    value = float(raw)
-    if not math.isfinite(value) or value < 0:
+    value = float(raw.strip().replace(",", "."))
+    # EPC QR caps the amount at 999,999,999.99
+    if not math.isfinite(value) or not 0 < value <= 999_999_999.99:
         raise ValueError("Invalid amount")
     return value
 
@@ -34,9 +34,19 @@ def get_paypal_user():
 
 @app.route('/')
 def main():
-    if request.args.get("amount") is not None:
-        return redirect(f"/{request.args.get('amount')}")
-    return render_template("index.html")
+    raw = request.args.get("amount")
+    if raw is not None:
+        # parse before redirecting: the raw value must never become the Location path
+        try:
+            return redirect(url_for("pay", amount=f"{parse_amount(raw):.2f}"))
+        except ValueError:
+            return redirect(url_for("main", error=1))
+    return render_template(
+        "index.html",
+        error=request.args.get("error") is not None,
+        payee_name=PAYEE_NAME,
+        paypal_username=get_paypal_user(),
+    )
 
 
 @app.route('/<amount>')
@@ -44,7 +54,7 @@ def pay(amount):
     try:
         amount = parse_amount(amount)
     except ValueError:
-        return redirect(url_for("main"))
+        return redirect(url_for("main", error=1))
 
     qrcode = helpers.make_epc_qr(
         name=PAYEE_NAME, iban=IBAN, bic=BIC,
@@ -57,6 +67,7 @@ def pay(amount):
         payee_name=PAYEE_NAME,
         iban=IBAN,
         bic=BIC,
+        qr_text=QR_TEXT,
         paypal_username=get_paypal_user(),
     )
 
@@ -74,7 +85,6 @@ def image_preview(amount):
         amount=f"{amount_float:.2f}",
         payee_name=PAYEE_NAME,
         has_paypal=has_paypal,
-        methods_transform="translate(100, 235)" if has_paypal else "translate(140, 235)",
     )
 
     try:
