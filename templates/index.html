@@ -1,38 +1,48 @@
 {% extends "layout.html" %}
-{% block content %}
-    <div class="hero-section">
-        <div class="row justify-content-center">
-            <div class="col-lg-5 col-md-8">
-                <div class="content-card text-center animate-in">
-                    <div class="brand-icon">
-                        <i class="fas fa-wallet"></i>
-                    </div>
-                    <h1>Pay Me</h1>
-                    <p class="subtitle">Enter an amount to generate a shareable payment link with QR code and bank details.</p>
-                </div>
-            </div>
-        </div>
 
-        <form class="form-inline" action="/" method="get">
-            <div class="row justify-content-center mt-4">
-                <div class="col-lg-5 col-md-8">
-                    <div class="payment-section animate-in delay-1">
-                        <div class="form-group">
-                            <label for="amount" class="form-label">Payment Amount</label>
-                            <div class="input-group">
-                                <span class="input-group-text" aria-label="Euro"><i class="fas fa-euro-sign"></i></span>
-                                <input type="number" min="0.01" step="0.01" placeholder="0.00" id="amount"
-                                       name="amount" class="form-control form-control-lg" required
-                                       aria-label="Payment amount in euros"
-                                       inputmode="decimal">
-                            </div>
-                        </div>
-                        <button class="btn btn-primary btn-lg w-100 mt-3" type="submit">
-                            Continue to Payment <i class="fas fa-arrow-right ms-2"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </form>
+{% block title %}Request a payment · Pay M€{% endblock %}
+
+{% block content %}
+<div class="intro">
+    <div>
+    <h1>Request a payment</h1>
+    <p class="lede">
+        Type an amount and send the link. It opens a page with the bank details for
+        {{ payee_name }}, a transfer QR code{% if paypal_username %} and a PayPal button{% endif %}.
+    </p>
     </div>
+
+    <form class="amount-form" action="{{ url_for('main') }}" method="get" novalidate>
+        <label class="field amount-field" for="amount">
+            <span class="field-label">Amount in euros</span>
+            <span class="amount-input-row">
+                <input id="amount" name="amount" class="amount-input" type="text"
+                       inputmode="decimal" autocomplete="off" placeholder="0.00" required
+                       {% if error %}aria-invalid="true" aria-describedby="amount-error"{% endif %}>
+                <span class="euro" aria-hidden="true">€</span>
+            </span>
+        </label>
+        {% if error %}
+            <p class="form-error" id="amount-error">That amount didn't work. Use a number above 0, like 12.50 or 12,50.</p>
+        {% endif %}
+        <p class="link-preview" id="link-preview" aria-live="polite"></p>
+        <button class="btn" type="submit">Create payment link</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function () {
+    var input = document.getElementById('amount');
+    var out = document.getElementById('link-preview');
+    var base = location.origin + '/';
+    function update() {
+        var v = parseFloat(input.value.trim().replace(',', '.'));
+        out.textContent = v > 0 && isFinite(v) ? 'Link: ' + base + v.toFixed(2) : '';
+    }
+    input.addEventListener('input', update);
+    update();
+})();
+</script>
 {% endblock %}

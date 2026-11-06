@@ -9,7 +9,7 @@ A modern Flask web application that generates payment QR codes and PayPal links 
 - **PayPal Integration**: Direct links to PayPal.me for instant payments
 - **SEPA Bank Transfers**: Generate EPC QR codes for European bank transfers
 - **Configurable**: All payment details configured via environment variables
-- **Modern UI**: Glass-morphism design with responsive layout
+- **Printed-slip UI**: plain CSS styled after a bank transfer slip, works on phones and desktops
 - **Docker Ready**: Containerized with Alpine Linux for production deployment
 
 ## Quick Start
@@ -224,7 +224,7 @@ Pay-Me/
 │   └── pay.html
 └── static/           # Static assets
     └── css/
-        └── main.less # LESS stylesheets
+        └── main.css  # Stylesheet (plain CSS, no build step)
 ```
 
 ### Running Tests
